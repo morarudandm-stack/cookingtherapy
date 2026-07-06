@@ -226,6 +226,28 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; }
   border-color: var(--olive-deep);
 }
 
+.ct-hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.ct-hero-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.ct-hero-chip:hover { border-color: var(--terracotta-deep); }
+
 .ct-hero-art {
   position: relative;
   aspect-ratio: 3/4;
@@ -260,11 +282,11 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; }
 .ct-services { background: var(--white); padding-top: 40px; }
 .ct-services-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 28px;
 }
-@media (max-width: 860px) {
-  .ct-services-grid { grid-template-columns: 1fr; }
+@media (max-width: 900px) {
+  .ct-services-grid { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; }
 }
 .ct-service-card {
   position: relative;
@@ -713,6 +735,7 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; }
         <button class="ct-btn ct-btn-primary" id="hero-cta-book" data-nav="booking"></button>
         <button class="ct-btn ct-btn-ghost" id="hero-cta-courses" data-nav="courses"></button>
       </div>
+      <div class="ct-hero-chips" id="hero-chips"></div>
     </div>
     <div class="ct-hero-art">
       <img id="hero-img" src="" alt="Maria" />
@@ -739,6 +762,13 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; }
         <h3 class="ct-display" id="service-chef-title"></h3>
         <p id="service-chef-desc"></p>
         <button class="ct-btn ct-btn-primary" id="service-chef-cta"></button>
+      </div>
+      <div class="ct-service-card ct-service-card-highlight">
+        <div class="ct-service-badge" id="service-catering-badge"></div>
+        <div class="ct-service-icon">🍱</div>
+        <h3 class="ct-display" id="service-catering-title"></h3>
+        <p id="service-catering-desc"></p>
+        <button class="ct-btn ct-btn-primary" id="service-catering-cta"></button>
       </div>
     </div>
   </div>
@@ -966,9 +996,13 @@ const I18N = {
     hero_cta_courses: "Vezi cursurile",
     hero_badge: "Maria, Chefi la Cuțite 2025",
 
-    services_eyebrow: "Două moduri de a trăi experiența",
+    hero_chip_courses: "Curs de gătit",
+    hero_chip_chef: "Cină privată la tine",
+    hero_chip_catering: "Catering, livrat la tine",
+
+    services_eyebrow: "Moduri de a trăi experiența",
     services_title: "Ce îți dorești în seara asta?",
-    services_subtitle: "Alege dacă vrei să gătești alături de Maria și să înveți, sau să te relaxezi în timp ce ea gătește și strânge bucătăria pentru tine.",
+    services_subtitle: "Alege dacă vrei să gătești alături de Maria și să înveți, să te relaxezi în timp ce ea gătește și strânge bucătăria la tine acasă, sau să primești mâncarea deja gata prin catering.",
     service_course_title: "Curs de gătit",
     service_course_desc: "Pui mâna pe aluat alături de Maria: înveți tehnicile, îți prepari propriul fel de mâncare și pleci acasă cu cunoștințe noi (și burta plină).",
     service_course_cta: "Descoperă cursurile",
@@ -976,6 +1010,10 @@ const I18N = {
     service_chef_title: "Cină privată: vine chef-ul la tine",
     service_chef_desc: "Vrei doar să te bucuri de seară alături de familie sau prieteni? Maria gătește pentru voi, servește la masă și curăță bucătăria la final. Tu nu ridici un deget.",
     service_chef_cta: "Rezervă o cină privată",
+    service_catering_badge: "Și pentru evenimente",
+    service_catering_title: "Catering: gătit profesionist, livrat la tine",
+    service_catering_desc: "Maria pregătește totul în bucătăria ei profesională și aduce mâncarea gata făcută acolo unde dorești: acasă, la birou sau la un eveniment special.",
+    service_catering_cta: "Solicită catering",
 
     about_eyebrow: "Povestea Mariei",
     about_title: "Din Puglia, prin Milano, până la tine în bucătărie",
@@ -1010,6 +1048,11 @@ const I18N = {
     course_chef_desc: "Chef-ul gătește și curăță pentru tine: te bucuri de seară alături de cine vrei, fără nicio grijă.",
     course_chef_duration: "Seară întreagă",
 
+    course_catering_region: "Bucătărie profesională",
+    course_catering_title: "Catering personalizat",
+    course_catering_desc: "Pregătim meniul în laboratorul nostru și îl aducem gata acolo unde vrei: acasă, la birou, la eveniment.",
+    course_catering_duration: "La cerere",
+
     course_people: "Până la 12 persoane",
     course_book_btn: "Rezervă",
     meat_note: "Meniuri cu carne sunt disponibile la cerere specială, te rugăm să ne scrii.",
@@ -1038,7 +1081,7 @@ const I18N = {
     form_location: "Unde dorești să gătim",
     form_location_atmaria: "La Maria (locația indicată)",
     form_location_athome: "La tine acasă / locația ta",
-    form_address: "Adresă (dacă Maria vine la tine)", form_address_ph: "Stradă, oraș...",
+    form_address: "Adresă (la tine acasă sau livrare catering)", form_address_ph: "Stradă, oraș...",
     form_message: "Mesaj (opțional)", form_message_ph: "Alergii, preferințe, ocazie specială...",
     form_submit: "Trimite cererea",
     form_submitting: "Se trimite...",
@@ -1070,9 +1113,13 @@ const I18N = {
     hero_cta_courses: "Kochkurse ansehen",
     hero_badge: "Maria, Chefi la Cuțite 2025",
 
-    services_eyebrow: "Zwei Wege, es zu erleben",
+    hero_chip_courses: "Kochkurs",
+    hero_chip_chef: "Privatkoch bei Ihnen",
+    hero_chip_catering: "Catering, geliefert",
+
+    services_eyebrow: "Wege, es zu erleben",
     services_title: "Was möchten Sie heute Abend?",
-    services_subtitle: "Wählen Sie, ob Sie gemeinsam mit Maria kochen lernen möchten, oder sich entspannen, während sie für Sie kocht und danach die Küche aufräumt.",
+    services_subtitle: "Wählen Sie, ob Sie gemeinsam mit Maria kochen lernen möchten, sich entspannen möchten, während sie bei Ihnen kocht, oder das fertige Essen einfach per Catering geliefert bekommen möchten.",
     service_course_title: "Kochkurs",
     service_course_desc: "Sie legen gemeinsam mit Maria selbst Hand an: Sie lernen die Techniken, bereiten Ihr Gericht zu und nehmen das Wissen (und einen vollen Bauch) mit nach Hause.",
     service_course_cta: "Kochkurse entdecken",
@@ -1080,6 +1127,10 @@ const I18N = {
     service_chef_title: "Privatkoch: Maria kommt zu Ihnen",
     service_chef_desc: "Sie möchten den Abend einfach mit Familie oder Freunden genießen? Maria kocht für Sie, serviert und räumt am Ende die Küche auf. Sie müssen keinen Finger rühren.",
     service_chef_cta: "Privatkoch buchen",
+    service_catering_badge: "Auch für Events",
+    service_catering_title: "Catering: professionell gekocht, zu Ihnen geliefert",
+    service_catering_desc: "Maria bereitet alles in ihrer professionellen Küche zu und bringt das fertige Essen an den Ort Ihrer Wahl: zu Hause, im Büro oder bei einer besonderen Veranstaltung.",
+    service_catering_cta: "Catering anfragen",
 
     about_eyebrow: "Marias Geschichte",
     about_title: "Von Apulien über Mailand bis in Ihre Küche",
@@ -1112,6 +1163,10 @@ const I18N = {
     course_chef_region: "Exklusiver Service",
     course_chef_title: "Privates Dinner bei Ihnen zu Hause",
     course_chef_desc: "Der Koch kocht und räumt für Sie auf: Sie genießen den Abend mit wem Sie möchten, ganz ohne Aufwand.",
+    course_catering_region: "Professionelle Küche",
+    course_catering_title: "Catering nach Maß",
+    course_catering_desc: "Wir bereiten das Menü in unserer Küche zu und liefern es fertig dorthin, wo Sie möchten: zu Hause, im Büro, bei Ihrer Veranstaltung.",
+    course_catering_duration: "Auf Anfrage",
     course_chef_duration: "Ganzer Abend",
 
     course_people: "Bis zu 12 Personen",
@@ -1142,7 +1197,7 @@ const I18N = {
     form_location: "Wo möchten Sie kochen",
     form_location_atmaria: "Bei Maria (angegebener Ort)",
     form_location_athome: "Bei Ihnen zu Hause / Wunschort",
-    form_address: "Adresse (falls Maria zu Ihnen kommt)", form_address_ph: "Straße, Stadt...",
+    form_address: "Adresse (Hausbesuch oder Catering-Lieferung)", form_address_ph: "Straße, Stadt...",
     form_message: "Nachricht (optional)", form_message_ph: "Allergien, Wünsche, besonderer Anlass...",
     form_submit: "Anfrage senden",
     form_submitting: "Wird gesendet...",
@@ -1174,9 +1229,13 @@ const I18N = {
     hero_cta_courses: "Scopri i corsi",
     hero_badge: "Maria, Chefi la Cuțite 2025",
 
-    services_eyebrow: "Due modi di viverla",
+    hero_chip_courses: "Corso di cucina",
+    hero_chip_chef: "Cuoco privato a domicilio",
+    hero_chip_catering: "Catering, consegnato",
+
+    services_eyebrow: "Modi di viverla",
     services_title: "Cosa preferisci stasera?",
-    services_subtitle: "Scegli se vuoi imparare a cucinare insieme a Maria, oppure rilassarti mentre lei cucina e pulisce per te.",
+    services_subtitle: "Scegli se vuoi imparare a cucinare insieme a Maria, rilassarti mentre lei cucina da te, oppure ricevere il cibo già pronto con il catering.",
     service_course_title: "Corso di cucina",
     service_course_desc: "Ti metti le mani in pasta insieme a Maria: impari le tecniche, prepari il tuo piatto e te lo porti a casa nella testa (e nella pancia).",
     service_course_cta: "Scopri i corsi",
@@ -1184,6 +1243,10 @@ const I18N = {
     service_chef_title: "Cena privata: il cuoco viene da te",
     service_chef_desc: "Vuoi solo goderti la serata con famiglia o amici? Maria cucina per voi, serve in tavola e pulisce la cucina alla fine. Tu non muovi un dito.",
     service_chef_cta: "Prenota una cena privata",
+    service_catering_badge: "Anche per eventi",
+    service_catering_title: "Catering: cucina professionale, consegnata da te",
+    service_catering_desc: "Maria prepara tutto nella sua cucina professionale, poi porta il cibo pronto nella location che preferisci: casa, ufficio, evento speciale.",
+    service_catering_cta: "Richiedi un catering",
 
     about_eyebrow: "La storia di Maria",
     about_title: "Dalla Puglia, passando per Milano, fino alla vostra cucina",
@@ -1216,6 +1279,10 @@ const I18N = {
     course_chef_region: "Servizio esclusivo",
     course_chef_title: "Cena privata a domicilio",
     course_chef_desc: "Il cuoco cucina e pulisce per te: tu ti godi la serata con chi vuoi, senza pensieri.",
+    course_catering_region: "Cucina professionale",
+    course_catering_title: "Catering su misura",
+    course_catering_desc: "Prepariamo il menu nel nostro laboratorio e lo portiamo pronto dove vuoi tu: casa, ufficio, evento.",
+    course_catering_duration: "Su richiesta",
     course_chef_duration: "Serata intera",
 
     course_people: "Fino a 12 persone",
@@ -1246,7 +1313,7 @@ const I18N = {
     form_location: "Dove vuoi cucinare",
     form_location_atmaria: "Da Maria (location indicata)",
     form_location_athome: "A casa tua / nella location che preferisci",
-    form_address: "Indirizzo (se Maria viene da te)", form_address_ph: "Via, città...",
+    form_address: "Indirizzo (a domicilio o per la consegna catering)", form_address_ph: "Via, città...",
     form_message: "Messaggio (opzionale)", form_message_ph: "Allergie, preferenze, occasione speciale...",
     form_submit: "Invia richiesta",
     form_submitting: "Invio in corso...",
@@ -1307,6 +1374,14 @@ const I18N = {
       desc_key: 'course_chef_desc',
       duration_key: 'course_chef_duration',
       img: 'zuppa_pesce_pane',
+    },
+    {
+      id: 'catering',
+      region_key: 'course_catering_region',
+      title_key: 'course_catering_title',
+      desc_key: 'course_catering_desc',
+      duration_key: 'course_catering_duration',
+      img: 'paccheri',
     },
   ];
 
@@ -1446,6 +1521,19 @@ const I18N = {
     document.getElementById('hero-cta-courses').textContent = t('hero_cta_courses');
     document.getElementById('hero-badge').textContent = t('hero_badge');
     document.getElementById('hero-img').src = IMAGES.maria_chefi_cutite_hero;
+
+    const chips = [
+      ['🍝', t('hero_chip_courses'), () => scrollToSection('courses')],
+      ['👩‍🍳', t('hero_chip_chef'), () => bookAs('privatchef')],
+      ['🍱', t('hero_chip_catering'), () => bookAs('catering')],
+    ];
+    const chipsEl = document.getElementById('hero-chips');
+    chipsEl.innerHTML = chips.map(([icon, label], i) =>
+      `<button type="button" class="ct-hero-chip" data-chip="${i}"><span>${icon}</span>${escapeHtml(label)}</button>`
+    ).join('');
+    chipsEl.querySelectorAll('[data-chip]').forEach((btn, i) => {
+      btn.addEventListener('click', chips[i][2]);
+    });
   }
 
   function renderServices() {
@@ -1463,14 +1551,27 @@ const I18N = {
     const chefCta = document.getElementById('service-chef-cta');
     chefCta.textContent = t('service_chef_cta');
     if (!chefCta.dataset.bound) {
-      chefCta.addEventListener('click', () => {
-        state.preselectedCourse = 'privatchef';
-        const sel = document.getElementById('form-course');
-        if (sel) sel.value = 'privatchef';
-        scrollToSection('booking');
-      });
+      chefCta.addEventListener('click', () => bookAs('privatchef'));
       chefCta.dataset.bound = '1';
     }
+
+    document.getElementById('service-catering-badge').textContent = t('service_catering_badge');
+    document.getElementById('service-catering-title').textContent = t('service_catering_title');
+    document.getElementById('service-catering-desc').textContent = t('service_catering_desc');
+    const cateringCta = document.getElementById('service-catering-cta');
+    cateringCta.textContent = t('service_catering_cta');
+    if (!cateringCta.dataset.bound) {
+      cateringCta.addEventListener('click', () => bookAs('catering'));
+      cateringCta.dataset.bound = '1';
+    }
+  }
+
+  function bookAs(courseId) {
+    state.preselectedCourse = courseId;
+    const sel = document.getElementById('form-course');
+    if (sel) sel.value = courseId;
+    updateAddressVisibility();
+    scrollToSection('booking');
   }
 
   function renderAbout() {
@@ -1562,6 +1663,14 @@ const I18N = {
     document.getElementById('info-response-value').textContent = t('info_response_value');
   }
 
+  function updateAddressVisibility() {
+    const locationSel = document.getElementById('form-location');
+    const courseSel = document.getElementById('form-course');
+    const addressRow = document.getElementById('form-address-row');
+    const show = locationSel.value === 'home' || courseSel.value === 'catering';
+    addressRow.style.display = show ? '' : 'none';
+  }
+
   function renderForm() {
     document.getElementById('form-label-name').textContent = t('form_name');
     document.getElementById('form-name').placeholder = t('form_name_ph');
@@ -1603,12 +1712,14 @@ const I18N = {
       <option value="home">${escapeHtml(t('form_location_athome'))}</option>
     `;
     locationSel.value = prevLocationVal;
-    addressRow.style.display = locationSel.value === 'home' ? '' : 'none';
+    updateAddressVisibility();
     if (!locationSel.dataset.bound) {
-      locationSel.addEventListener('change', () => {
-        addressRow.style.display = locationSel.value === 'home' ? '' : 'none';
-      });
+      locationSel.addEventListener('change', updateAddressVisibility);
       locationSel.dataset.bound = '1';
+    }
+    if (!courseSel.dataset.boundAddress) {
+      courseSel.addEventListener('change', updateAddressVisibility);
+      courseSel.dataset.boundAddress = '1';
     }
 
     const submitBtn = document.getElementById('form-submit-btn');
@@ -1720,7 +1831,7 @@ const I18N = {
       t('email_field_people') + ': ' + people,
       t('email_field_date') + ': ' + date,
       t('email_field_location') + ': ' + locationLabel,
-      (locationType === 'home' && address) ? t('email_field_address') + ': ' + address : null,
+      ((locationType === 'home' || course === 'catering') && address) ? t('email_field_address') + ': ' + address : null,
       message ? t('email_field_message') + ': ' + message : null,
     ].filter(Boolean);
     const body = encodeURIComponent(bodyLines.join('\n'));
