@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cooking Therapie bei Maria - Pasta Fresca Experience</title>
-<meta name="description" content="Private Kochkurse, Privatkoch und Catering mit Maria: Pasta, Brot, Pizza und Fisch, von Hand zubereitet. Buchen Sie Ihr kulinarisches Erlebnis - bei Maria, bei Ihnen zu Hause oder als Catering." />
+<title>Cooking Therapie bei Maria, Pasta Fresca Experience</title>
+<meta name="description" content="Private Kochkurse, Privatkoch und Catering mit Maria: Pasta, Brot, Pizza und Fisch, von Hand zubereitet. Buchen Sie Ihr kulinarisches Erlebnis, bei Maria, bei Ihnen zu Hause oder als Catering." />
 <link rel="canonical" href="https://cookingtherapy.de/" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Cooking Therapie bei Maria - Pasta Fresca Experience" />
+<meta property="og:title" content="Cooking Therapie bei Maria, Pasta Fresca Experience" />
 <meta property="og:description" content="Private Kochkurse, Privatkoch und Catering mit Maria: Pasta, Brot, Pizza und Fisch, von Hand zubereitet." />
 <meta property="og:image" content="https://cookingtherapy.de/og-image.jpg" />
 <meta property="og:url" content="https://cookingtherapy.de/" />
@@ -1087,7 +1087,7 @@ const I18N = {
     service_chef_cta: "Privatkoch buchen",
     service_catering_badge: "Auch für Events",
     service_catering_title: "Catering: professionell gekocht, zu Ihnen geliefert",
-    service_catering_desc: "Maria bereitet alles in ihrer professionellen Küche zu und bringt das fertige Essen an den Ort Ihrer Wahl: zu Hause, im Büro oder bei einer besonderen Veranstaltung. Geliefert wird nur das Essen - Geschirr, Besteck und Bedienung sind nicht inbegriffen.",
+    service_catering_desc: "Maria bereitet alles in ihrer professionellen Küche zu und bringt das fertige Essen an den Ort Ihrer Wahl: zu Hause, im Büro oder bei einer besonderen Veranstaltung. Geliefert wird nur das Essen. Geschirr, Besteck und Bedienung sind nicht inbegriffen.",
     service_catering_cta: "Catering anfragen",
 
     about_eyebrow: "Marias Geschichte",
@@ -1780,7 +1780,7 @@ const I18N = {
 
     state.bookings = addBooking(record);
 
-    const subject = encodeURIComponent(t('email_subject_prefix') + ': ' + courseLabel(course) + ' \u2013 ' + date);
+    const subject = encodeURIComponent(t('email_subject_prefix') + ': ' + courseLabel(course) + ', ' + date);
     const bodyLines = [
       t('email_field_name') + ': ' + name,
       t('email_field_email') + ': ' + email,
