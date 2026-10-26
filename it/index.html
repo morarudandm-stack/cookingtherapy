@@ -1871,7 +1871,10 @@ const I18N = {
     if (tipo) msg += t('sweets_wa_type') + ': ' + tipo + '\n';
     if (data) msg += t('sweets_wa_date') + ': ' + data + '\n';
     msg += '\n' + t('sweets_wa_thanks');
-    window.open('https://wa.me/491771669752?text=' + encodeURIComponent(msg), '_blank');
+    const waUrl = 'https://wa.me/491771669752?text=' + encodeURIComponent(msg);
+    let win = null;
+    try { win = window.open(waUrl, '_blank'); } catch (e) {}
+    if (!win) window.location.href = waUrl;
   }
   window.sendSweetsOrder = sendSweetsOrder;
 
